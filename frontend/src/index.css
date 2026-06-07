@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-shelf-bg text-shelf-dark;
+  font-family: 'Pretendard', system-ui, 'Malgun Gothic', sans-serif;
+}

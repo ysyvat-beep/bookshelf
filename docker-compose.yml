@@ -1,0 +1,25 @@
+# 3개 컨테이너 오케스트레이션
+# (frontend는 빌드 결과를 proxy 컨테이너가 서빙하므로 별도 실행 컨테이너 없음)
+services:
+  express-server:
+    build: ./server
+    environment:
+      KAKAO_API_KEY: ${KAKAO_API_KEY}     # 루트 .env 에서 주입
+    volumes:
+      - db-data:/usr/src/app/data         # SQLite DB 파일 영속화
+    networks: [app-network]
+    restart: unless-stopped
+
+  nginx-proxy:
+    build: ./proxy
+    ports: ['80:80']
+    depends_on: [express-server]
+    networks: [app-network]
+    restart: unless-stopped
+
+volumes:
+  db-data:
+
+networks:
+  app-network:
+    driver: bridge

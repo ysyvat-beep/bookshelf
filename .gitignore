@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# env / secrets
+.env
+server/.env
+
+# SQLite DB
+server/bookshelf.db
+server/bookshelf.db-*
+server/data/
+
+# build output (도커 빌드 시 새로 생성)
+proxy/static/dist/*
+!proxy/static/dist/.gitkeep
+
+# misc
+.DS_Store
+*.log
