@@ -10,7 +10,7 @@ export default function SearchPage() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [recent, setRecent] = useLocalStorage('recent-searches', []); // 최근 검색어
-  const [selected, setSelected] = useState(null); // 저장 폼을 열어 둔 책
+  const [selected, setSelected] = useState(null); 
 
   async function runSearch(q) {
     const keyword = (q ?? query).trim();
@@ -97,7 +97,7 @@ export default function SearchPage() {
               </div>
             </div>
 
-            {/* 저장 폼 (상태/별점/한줄평) */}
+            {/* 상태/별점/한줄평 저장 폼 */}
             {selected?.idx === i && (
               <SaveForm
                 book={book}

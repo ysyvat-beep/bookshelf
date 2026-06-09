@@ -39,7 +39,7 @@ MyBookShelf/
 ```bash
 cd server
 npm install
-cp .env.example .env        # KAKAO_API_KEY 채우기
+cp .env.example .env        # KAKAO_API_KEY 넣음
 npm run dev                 # http://localhost:3000
 ```
 
@@ -55,7 +55,7 @@ Vite 개발 서버가 `/api` 요청을 자동으로 `:3000`(Express)으로 프�
 
 ```bash
 # 1) 카카오 키 설정
-cp .env.example .env        # KAKAO_API_KEY 채우기
+cp .env.example .env        # KAKAO_API_KEY 넣음
 
 # 2) 프론트엔드 빌드 → proxy/static/dist 로 출력
 cd frontend && npm install && npm run build && cd ..

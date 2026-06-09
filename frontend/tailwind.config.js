@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // 서재 느낌의 따뜻한 색상 팔레트 (자유롭게 수정하세요)
+        // 서재 느낌의 따뜻한 색상 팔레트 
         shelf: {
           bg: '#faf6f0',
           card: '#ffffff',

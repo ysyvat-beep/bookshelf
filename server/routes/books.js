@@ -1,4 +1,4 @@
-// /api/books 관련 라우트 + 책에 속한 구절(quotes) 조회/추가
+// ./api/books 관련 라우트 + 책에 속한 구절 조회/추가
 import { Router } from 'express';
 import db from '../db.js';
 
@@ -14,9 +14,7 @@ function getBookWithQuotes(id) {
   return book;
 }
 
-// GET /api/books            서재 목록 (status 필터, 정렬 옵션)
-//   ?status=done|reading|wish
-//   ?sort=created|rating    (기본 created)
+// GET /api/books 서재 목록 조회
 router.get('/', (req, res) => {
   const { status, sort } = req.query;
   const where = [];
@@ -30,14 +28,14 @@ router.get('/', (req, res) => {
   res.json({ books: db.prepare(sql).all(...params) });
 });
 
-// GET /api/books/:id        도서 상세 (책 정보 + 감상 + 구절 카드)
+// GET /api/books/:id 책 한 권 조회
 router.get('/:id', (req, res) => {
   const book = getBookWithQuotes(req.params.id);
   if (!book) return res.status(404).json({ error: '책을 찾을 수 없습니다.' });
   res.json({ book });
 });
 
-// POST /api/books           새 책 등록 (검색 결과 + 사용자 입력)
+// POST /api/books  새 책 등록 (검색 결과 + 사용자 입력)
 router.post('/', (req, res) => {
   const {
     isbn, title, author, publisher, cover_url,
@@ -54,7 +52,7 @@ router.post('/', (req, res) => {
   res.status(201).json({ book: getBookWithQuotes(info.lastInsertRowid) });
 });
 
-// PATCH /api/books/:id      책 정보 수정 (별점/한줄평/상태/읽은 기간)
+// PATCH /api/books/:id   책 정보 수정 (별점/한줄평/상태/읽은 기간)
 router.patch('/:id', (req, res) => {
   const existing = db.prepare('SELECT * FROM books WHERE id = ?').get(req.params.id);
   if (!existing) return res.status(404).json({ error: '책을 찾을 수 없습니다.' });
@@ -70,14 +68,14 @@ router.patch('/:id', (req, res) => {
   res.json({ book: getBookWithQuotes(existing.id) });
 });
 
-// DELETE /api/books/:id     책 삭제 (구절은 FK CASCADE로 함께 삭제)
+// DELETE /api/books/:id   책 삭제 (구절은 FK CASCADE로 함께 삭제)
 router.delete('/:id', (req, res) => {
   const info = db.prepare('DELETE FROM books WHERE id = ?').run(req.params.id);
   if (info.changes === 0) return res.status(404).json({ error: '책을 찾을 수 없습니다.' });
   res.json({ ok: true });
 });
 
-// GET /api/books/:id/quotes     특정 책의 구절 목록
+// GET /api/books/:id/quotes   특정 책의 구절 목록
 router.get('/:id/quotes', (req, res) => {
   const quotes = db
     .prepare('SELECT * FROM quotes WHERE book_id = ? ORDER BY created_at DESC')
@@ -85,7 +83,7 @@ router.get('/:id/quotes', (req, res) => {
   res.json({ quotes });
 });
 
-// POST /api/books/:id/quotes    OCR로 추출된 구절 저장
+// POST /api/books/:id/quotes   OCR로 추출된 구절 저장
 router.post('/:id/quotes', (req, res) => {
   const book = db.prepare('SELECT id FROM books WHERE id = ?').get(req.params.id);
   if (!book) return res.status(404).json({ error: '책을 찾을 수 없습니다.' });

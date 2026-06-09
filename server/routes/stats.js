@@ -1,5 +1,6 @@
 // GET /api/stats   독서 통계 집계 (대시보드용)
-// SQL 집계(GROUP BY / COUNT / AVG)를 활용합니다.
+// SQL 집계(GROUP BY / COUNT / AVG)를 활용
+
 import { Router } from 'express';
 import db from '../db.js';
 

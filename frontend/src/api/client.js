@@ -1,7 +1,7 @@
-// 백엔드 REST API 호출 모음. 모든 경로는 /api 로 시작합니다.
-// - 로컬 개발: VITE_API_BASE 미설정 → Vite 프록시가 /api → :3000 으로 전달
-// - Docker:   VITE_API_BASE 미설정 → Nginx가 /api → express-server 로 전달
-// - Render:   VITE_API_BASE=https://bookshelf-api.onrender.com → 직접 호출
+// 백엔드 REST API 호출 모음. 엔드포인트는 /api 로 시작
+// 로컬 개발: 3000포트 실행
+// Docker: Nginx가 /api → express-server 로 전달
+// Render: VITE_API_BASE= https://bookshelf-1-qzrp.onrender.com/ 로 직접 호출
 
 const API_BASE = import.meta.env.VITE_API_BASE ?? '';
 
@@ -44,7 +44,7 @@ export const api = {
   stats: () => request('/stats'),
 };
 
-// 상태값 ↔ 한글 라벨 매핑 (UI 곳곳에서 재사용)
+// 상태값
 export const STATUS = {
   done: { label: '다 읽음', color: '#5a9367' },
   reading: { label: '읽는 중', color: '#c98a3c' },

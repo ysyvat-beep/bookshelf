@@ -1,5 +1,4 @@
-# Render.com 배포 설정 파일
-# 참고: https://render.com/docs/blueprint-spec
+# Render.com 배포 설정 파일 (무료 플랜 기준)
 #
 # 서비스 구성
 #   bookshelf-api  → Express 백엔드 (Node.js Web Service)
@@ -10,39 +9,30 @@ services:
   - type: web
     name: bookshelf-api
     runtime: node
-    rootDir: server           # server/ 폴더를 루트로 사용
+    rootDir: server
     buildCommand: npm install
     startCommand: node server.js
+    plan: free                  # 무료 플랜
     envVars:
       - key: KAKAO_API_KEY
-        sync: false           # Render 대시보드에서 직접 입력 (민감 정보)
+        sync: false             # Render 대시보드에서 직접 입력
       - key: PORT
         value: 3000
       - key: DB_PATH
-        value: /var/data/bookshelf.db   # Disk 마운트 경로
-    # ⚠️  Disk 는 Render 유료 플랜에서 사용 가능합니다.
-    # 무료 플랜에서는 배포 시 DB 가 초기화됩니다.
-    # (과제 제출/시연 용도라면 무료 플랜으로 충분)
-    disk:
-      name: bookshelf-data
-      mountPath: /var/data
-      sizeGB: 1
+        value: ./bookshelf.db   # 컨테이너 내부 임시 저장 (무료 플랜)
 
   # ── 프론트엔드: React 정적 사이트 ────────────────────────────
   - type: web
     name: bookshelf-web
     runtime: static
     rootDir: frontend
-    # Render 에서 빌드할 때 outDir 을 dist 로 지정합니다.
-    # (로컬/도커 빌드는 ../proxy/static/dist 로 가지만 Render 는 dist/ 를 사용)
     buildCommand: npm install && npx vite build --outDir dist --emptyOutDir
     staticPublishPath: dist
+    plan: free                  # 무료 플랜
     envVars:
-      # 배포된 백엔드 URL (bookshelf-api 서비스의 실제 URL 로 교체하세요)
-      # 예: https://bookshelf-api.onrender.com
       - key: VITE_API_BASE
-        sync: false           # Render 대시보드에서 직접 입력
-    # SPA 라우팅: /books/1 같은 경로도 index.html 로 폴백
+        sync: false             # 배포 후 백엔드 URL 입력 (예: https://bookshelf-api.onrender.com)
+    # SPA 라우팅 폴백
     routes:
       - type: rewrite
         source: /*

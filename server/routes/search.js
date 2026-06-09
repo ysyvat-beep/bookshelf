@@ -1,5 +1,5 @@
 // GET /api/search?query=검색어
-// 카카오 도서 검색 API 프록시. API 키를 서버에서만 사용해 노출을 막습니다.
+// API 키를 서버에서만 사용해 노출을 막습니다. (보안 강화)
 import { Router } from 'express';
 import axios from 'axios';
 

@@ -4,7 +4,7 @@ import { api, STATUS } from '../api/client.js';
 import { useLocalStorage } from '../hooks/useLocalStorage.js';
 import BookCard from '../components/BookCard.jsx';
 
-// 탭 정의: 전체 + 상태별 3개
+// 탭 정의: 전체 + 상태별 3개(다읽음/읽는중/찜) 
 const TABS = [
   { key: 'all', label: '전체' },
   { key: 'done', label: STATUS.done.label },
@@ -13,7 +13,7 @@ const TABS = [
 ];
 
 export default function LibraryPage() {
-  // 선택 탭/정렬/그리드 개수는 localStorage에 보관 (과제 요구사항)
+  // 선택 탭/정렬/그리드 개수는 localStorage에 보관 
   const [tab, setTab] = useLocalStorage('lib-tab', 'all');
   const [sort, setSort] = useLocalStorage('lib-sort', 'created');
   const [perRow, setPerRow] = useLocalStorage('lib-perRow', 4);
@@ -30,7 +30,7 @@ export default function LibraryPage() {
       .finally(() => setLoading(false));
   }, [tab, sort]);
 
-  // perRow → Tailwind grid 클래스 매핑 (동적 클래스는 빌드시 누락될 수 있어 고정 매핑)
+  // perRow → Tailwind grid 클래스 매핑 
   const gridCols = {
     3: 'grid-cols-2 sm:grid-cols-3',
     4: 'grid-cols-2 sm:grid-cols-4',
